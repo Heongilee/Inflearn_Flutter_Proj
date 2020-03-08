@@ -2,7 +2,7 @@
 
 since 2020-03-08
 
-* IDE : vscode
+* IDE : vscode && Android Studio
 * Language : Dart
 * Framework : Flutter
 

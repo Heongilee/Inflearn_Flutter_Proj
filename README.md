@@ -2,10 +2,10 @@
 
 since 2020-03-08
 
-IDE : vscode
-Language : Dart
-Framework : Flutter
+* IDE : vscode
+* Language : Dart
+* Framework : Flutter
 
-goal : Instagram clone app
+The goal of this project : making a Instagram clone app
 
 

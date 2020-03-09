@@ -6,6 +6,6 @@ since 2020-03-08
 * Language : Dart
 * Framework : Flutter
 
-The goal of this project : making a Instagram clone app
+Final goal of this project : making a Instagram clone app...
 
 

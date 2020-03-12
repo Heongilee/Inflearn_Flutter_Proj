@@ -1,0 +1,2 @@
+예외가 발생했습니다.
+MissingPluginException (MissingPluginException(No implementation found for method pickImage on channel plugins.flutter.io/image_picker))

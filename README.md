@@ -5,7 +5,7 @@ since 2020-03-08
 * IDE : vscode && Android Studio
 * Language : Dart
 * Framework : Flutter
-* Server \ DB \ Google Authentication : Firebase
+* Server \ DB \ Google Authentication : Firebase(URL : https://console.firebase.google.com/project/instagram-clone-e3875/overview)
 
 Q>
   구글 파이어베이스 적용하는 방법...

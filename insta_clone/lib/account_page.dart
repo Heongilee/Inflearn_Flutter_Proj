@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:instaclone/login_page.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -6,6 +9,8 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +25,11 @@ class _AccountPageState extends State<AccountPage> {
         //로그아웃 버튼
         IconButton(
           icon: Icon(Icons.exit_to_app), 
-          onPressed: (){}),
+          onPressed: (){
+            FirebaseAuth.instance.signOut();
+            _googleSignIn.signOut();
+            return LoginPage();
+          }),
       ],
     );
   }

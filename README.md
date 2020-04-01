@@ -40,5 +40,5 @@ Goal : making a Instagram clone app...
 
 
 #### WireFrame
-![Wire_Frame_01](https://github.com/Heongilee/Inflearn_Flutter_Proj/blob/master/New%20Wireframe%201.png?raw=true)
+![Wire_Frame_01](https://github.com/Heongilee/Inflearn_Flutter_Proj/blob/master/UI_storyboard.png?raw=true)
 ![Wire_Frame_02](https://github.com/Heongilee/Inflearn_Flutter_Proj/blob/master/CreatePage.png?raw=true)

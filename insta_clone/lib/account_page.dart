@@ -4,6 +4,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:instaclone/login_page.dart';
 
 class AccountPage extends StatefulWidget {
+  final FirebaseUser user;
+
+  AccountPage(this.user);
   @override
   _AccountPageState createState() => _AccountPageState();
 }
@@ -55,7 +58,8 @@ class _AccountPageState extends State<AccountPage> {
                     width: _stack_circle_width,
                     height: _stack_circle_height,
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjUxMTY3fQ&w=1000&q=80'),
+                      //_AccountPageState에서 AccountPage에 있는 변수에 접근하려면 widget.XX 로 접근하면 된다.
+                      backgroundImage: NetworkImage(widget.user.photoUrl),
                     ),
                   ),
                   //플러스 버튼 :: FloatingActionButton
@@ -87,7 +91,8 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                 ],
               ),
-              Text('Name',
+              Padding(padding: EdgeInsets.all(5.0)),
+              Text(widget.user.displayName,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
               ),
             ],

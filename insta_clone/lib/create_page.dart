@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
 
 class CreatePage extends StatefulWidget {
+  final FirebaseUser user;
+
+  CreatePage(this.user);
+
   @override
   _CreatePageState createState() => _CreatePageState();
 }
@@ -40,8 +47,39 @@ class _CreatePageState extends State<CreatePage> {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.send),
-          onPressed: (){},
-          ),
+          onPressed: (){
+            // .\post\XXX.png 라는 이름으로 이미지를 Firestorage에 저장할 것.
+            final FirebaseStorageRef = FirebaseStorage
+            .instance.ref()
+            .child('post')
+            .child('${DateTime.now().millisecondsSinceEpoch}.png');
+
+            final task = FirebaseStorageRef.putFile(
+              _image, StorageMetadata(contentType: 'image/png')
+            );
+
+            // XX.then() : 어떠한 조건에 만족했다고 한다면...? (비동기 처리 키워드)
+            task.onComplete.then((value){
+              var downloadUrl = value.ref.getDownloadURL();
+
+              downloadUrl.then((uri){
+                var doc = Firestore.instance.collection('post').document();
+
+                //setData(Map<String, Dynamic>) :: Map 형식의 데이터를 넣는데 가장 쉬운 방법은 JSON형태로 넣는 것.
+                doc.setData({
+                  'id' : doc.documentID,
+                  'photoUrl' : uri.toString(),
+                  'contents' : textEditingController.text,
+                  'email' : widget.user.email,
+                  'displayName' : widget.user.displayName,
+                  'userPhotoUrl' : widget.user.photoUrl,
+                }).then((onValue){
+                  Navigator.pop(context); //이전 화면으로 넘어 감.
+                });
+              });
+            });
+          },
+        ),
       ],
     );
   }
@@ -68,7 +106,7 @@ class _CreatePageState extends State<CreatePage> {
   }
 
   Future _getImage() async {
-    //<<비동기>> 사용자가 이미지를 선택할때까지(pickImage) 기다리는것(await). like Thread.
+    // <<비동기>> 사용자가 이미지를 선택할때까지(pickImage) 기다리는것(await). like Thread.
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     //에러가 뜬다.
     //pickImage의 반환형은 Future<File>이지만, 사용자가 선택하기 전까지는 아니기 때문,

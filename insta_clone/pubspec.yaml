@@ -37,6 +37,8 @@ dependencies:
 
   # Firebase DB API
   cloud_firestore: ^0.13.4+2
+
+  # 이미지 업로드를 위한 firebase_storage :: 이미지(파일)를 직접 DB에 넣는 것은 비효율적이기 때문에 별도의 서버 공간에 저장해 놓음.
   firebase_storage: ^3.1.5
 
 dev_dependencies:

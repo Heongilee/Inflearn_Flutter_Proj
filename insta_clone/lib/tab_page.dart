@@ -16,11 +16,19 @@ class TabPage extends StatefulWidget {
 
 class _TabPageState extends State<TabPage> {
   int _selectedindex = 0;
-  List _pages = [
-    HomePage(),
-    SearchPage(),
-    AccountPage(),
-  ];
+  List _pages;
+
+  //build 전에 그리고 constructor 직후에 호출되는 메소드. 이 메소드 안에서 초기화 같은 것들을 수행할 수 있다.
+  @override
+  void initState() {
+    super.initState();
+
+    _pages = [
+    HomePage(widget.user),
+    SearchPage(widget.user),
+    AccountPage(widget.user),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

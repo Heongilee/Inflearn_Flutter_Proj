@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:ui';
 
 class HomePage extends StatelessWidget {
   final FirebaseUser user;
@@ -12,6 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Instagram Clone',
         style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
       ),
@@ -52,29 +54,42 @@ class HomePage extends StatelessWidget {
                         Text(user.email, style: TextStyle(fontWeight: FontWeight.bold),),
                         Text(user.displayName),
                         Padding(padding: EdgeInsets.all(8.0)),
-                        Row(
-                          //가운데 정렬
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            //정사각형(70.0 x 70.0)의 이미지(Image.network) child를 가지는 SizedBox. 원본 이미지를 정사각형 크기에 맞게 fitting하기 위해 fit 속성의 Boxfit.cover를 추가해준다.
-                            SizedBox(
-                              width: 70.0,
-                              height: 70.0,
-                              child: Image.network('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjUxMTY3fQ&w=1000&q=80', fit: BoxFit.cover,),
-                            ),
-                            Padding(padding: EdgeInsets.all(1.0)),
-                            SizedBox(
-                              width: 70.0,
-                              height: 70.0,
-                              child: Image.network('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjUxMTY3fQ&w=1000&q=80', fit: BoxFit.cover,),
-                            ),
-                            Padding(padding: EdgeInsets.all(1.0)),
-                            SizedBox(
-                              width: 70.0,
-                              height: 70.0,
-                              child: Image.network('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjUxMTY3fQ&w=1000&q=80', fit: BoxFit.cover,),
-                            ),
-                          ],
+                        StreamBuilder(
+                          stream: Firestore.instance.collection('post').where('email', isEqualTo: user.email).snapshots(),
+                          builder: (BuildContext context, AsyncSnapshot snapshot) {
+                            if(!snapshot.hasData){
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+                            var items = snapshot.data?.documents ?? [];
+
+                            return Row(
+                            //가운데 정렬
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              //정사각형(70.0 x 70.0)의 이미지(Image.network) child를 가지는 SizedBox. 원본 이미지를 정사각형 크기에 맞게 fitting하기 위해 fit 속성의 Boxfit.cover를 추가해준다.
+                              SizedBox(
+                                width: 70.0,
+                                height: 70.0,
+                                child: Image.network((items[0])['photoUrl'], fit: BoxFit.cover,),
+                              ),
+                              Padding(padding: EdgeInsets.all(1.0)),
+                              SizedBox(
+                                width: 70.0,
+                                height: 70.0,
+                                child: Image.network((items[1])['photoUrl'], fit: BoxFit.cover,),
+                              ),
+                              Padding(padding: EdgeInsets.all(1.0)),
+                              SizedBox(
+                                width: 70.0,
+                                height: 70.0,
+                                child: Image.network((items[2])['photoUrl'], fit: BoxFit.cover,),
+                              ),
+                            ],
+                          );
+                          }, 
                         ),
                         Padding(padding: EdgeInsets.all(8.0)),
                         Text('Facebook 친구'),
